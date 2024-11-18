@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Directory Viewer</title>
+</head>
+<body>
+<h1>Directory Contents</h1>
+<ul>
+    <li th:each="file : ${fileDetails}">
+        <!-- 파일 이름 클릭 시 이미지 URL로 이동 -->
+        <a th:href="@{'/images/' + ${file.fileName}}" th:text="${file.fileName}" target="_blank"></a>
+        <br>
+        <!-- 날짜 및 시간 표시 -->
+        <span th:text="'Date/Time: ' + ${file.timestamp}"></span>
+        <br>
+        <!-- 속도 표시 -->
+        <span th:text="'Speed: ' + ${file.speed}"></span>
+    </li>
+</ul>
+
+<div th:if="${error}" style="color: red;">
+    <p th:text="${error}"></p>
+</div>
+<a href="/">Back to Home</a>
+</body>
+</html>

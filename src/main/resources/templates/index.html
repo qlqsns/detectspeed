@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Speed Detection System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 주기적으로 상태를 가져오는 함수
+        function fetchDetectionStatus() {
+            $.get("/status", function(data) {
+                // 상태 갱신
+                $('#detectionStatus').text(data.detectionStatus);
+                // 과속 탐지 수 갱신
+                $('#detectionCount').text(data.detectionCount);
+            });
+        }
+
+        // 페이지가 로드될 때 상태를 한 번 가져오고, 5초마다 갱신
+        $(document).ready(function() {
+            fetchDetectionStatus(); // 처음 로드 시 상태 가져오기
+            setInterval(fetchDetectionStatus, 500); // 5초마다 갱신
+        });
+    </script>
+</head>
+<body>
+<h1>Speed Detection System</h1>
+<p>50cm/s 이상의 과속 탐지</p>
+
+<!-- 상태 메시지 표시 -->
+<p>상태: <span id="detectionStatus" th:text="${detectionStatus}">과속 탐지중..</span></p>
+
+<!-- 총 과속 탐지 수 표시 -->
+<p>총 과속 탐지 수: <span id="detectionCount" th:text="${detectionCount}">0</span></p>
+
+<form action="/open-directory" method="get">
+    <button type="submit">사진 확인하기</button>
+</form>
+</body>
+</html>
+
